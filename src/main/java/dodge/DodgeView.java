@@ -68,7 +68,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     /**
      * начальный импульс круга
      */
-    private final int impuls;
+    private final double impuls;
 
     /**
      * начальный радиус круга в процентах от размера поля
@@ -192,8 +192,8 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.size = screenSize.height * 3 / 4;
         this.indent = this.size / 60;
-        this.impuls = this.size * 95;
-        this.dodgeSpeed = (int) (this.size / 4.2);
+        this.impuls = Math.pow(this.size * 0.4, 2);
+        this.dodgeSpeed = this.size / 4.2;
 
         this.setPreferredSize(new Dimension(this.size + this.indent * 2, this.size + this.indent * 2));
         
