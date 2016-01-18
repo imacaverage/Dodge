@@ -68,7 +68,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     /**
      * начальный импульс круга
      */
-    private static final int IMPULS = 60000;
+    private final int impuls;
 
     /**
      * начальный радиус круга в процентах от размера поля
@@ -192,6 +192,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.size = screenSize.height * 3 / 4;
         this.indent = this.size / 60;
+        this.impuls = this.size * 90;
 
         this.setPreferredSize(new Dimension(this.size + this.indent * 2, this.size + this.indent * 2));
         
@@ -294,7 +295,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
                 
         double maxRadius = (1 - this.level * DodgeView.WHEEL_SIZE_LESS / 100.) * this.size * DodgeView.WHEEL_SIZE / 100.;
     
-        this.setWheels = new SetWheelsMovesInFigure(this.wheelDodge, this.figure, DodgeView.IMPULS, maxRadius, countPassive, countActive, countActiveLight);
+        this.setWheels = new SetWheelsMovesInFigure(this.wheelDodge, this.figure, this.impuls, maxRadius, countPassive, countActive, countActiveLight);
                         
     }
     
