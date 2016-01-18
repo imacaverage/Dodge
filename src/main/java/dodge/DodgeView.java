@@ -190,7 +190,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
 	    this.changeKey = false;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.size = screenSize.height * 3 / 4;
+        this.size = (int) (Math.sqrt(Math.pow(screenSize.height, 2) + Math.pow(screenSize.width, 2)) / 2.5);
         this.indent = this.size / 60;
         this.impuls = Math.pow(this.size * 0.4, 2);
         this.dodgeSpeed = this.size / 4.2;
