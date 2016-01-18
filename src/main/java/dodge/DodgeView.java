@@ -5,9 +5,7 @@
  */
 package dodge;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -25,12 +23,12 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     /**
      * размер игрового поля
      */
-    private static final int SIZE = 600;
+    private final int size;
     
     /**
      * отступ
      */
-    private static final int INDENT = 10;
+    private final int indent;
     
     /**
      * время уровня в секундах
@@ -191,7 +189,11 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         this.right = false;
 	    this.changeKey = false;
 
-        this.setPreferredSize(new Dimension(DodgeView.SIZE + DodgeView.INDENT * 2, DodgeView.SIZE + DodgeView.INDENT * 2));
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.size = screenSize.height * 3 / 4;
+        this.indent = this.size / 60;
+
+        this.setPreferredSize(new Dimension(this.size + this.indent * 2, this.size + this.indent * 2));
         
 }
         
@@ -199,8 +201,8 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     public void paint(Graphics g) {
         
         g.setColor(this.getBackground());
-        g.clearRect(0, 0, DodgeView.INDENT * 2 + DodgeView.SIZE, DodgeView.INDENT * 2 + DodgeView.SIZE);
-        g.fillRect(0, 0, DodgeView.INDENT * 2 + DodgeView.SIZE, DodgeView.INDENT * 2 + DodgeView.SIZE);
+        g.clearRect(0, 0, this.indent * 2 + this.size, this.indent * 2 + this.size);
+        g.fillRect(0, 0, this.indent * 2 + this.size, this.indent * 2 + this.size);
         
         this.figure.show(g, Color.BLACK);
 
@@ -248,12 +250,12 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     private void setFigure() {
 
         int countRoot = DodgeView.FIGURE_ROOT_COUNT[this.level];
-        Point2D point1, point2, center = new Point2D(DodgeView.INDENT + DodgeView.SIZE / 2, DodgeView.INDENT + DodgeView.SIZE / 2);
+        Point2D point1, point2, center = new Point2D(this.indent + this.size / 2, this.indent + this.size / 2);
         ArrayList<Line2D> lines = new ArrayList<>();
         
         Random rnd = new Random(System.currentTimeMillis());
         
-        Vector2D vector = new Vector2D(0, -DodgeView.SIZE / 2).rotateClockWise(2 * Math.PI * rnd.nextInt(11) / 10.);
+        Vector2D vector = new Vector2D(0, -this.size / 2).rotateClockWise(2 * Math.PI * rnd.nextInt(11) / 10.);
         point1 = center.shift(vector);
         
         for (int i = 0; i < countRoot; i++) {
@@ -273,10 +275,10 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     private void setWheel() {
         double x, y;
         Point2D point;
-        x = (DodgeView.SIZE + DodgeView.INDENT) / 2;
-        y = (DodgeView.SIZE + DodgeView.INDENT) / 2;
+        x = (this.size + this.indent) / 2;
+        y = (this.size + this.indent) / 2;
         point = new Point2D(x, y);
-        this.wheelDodge = new WheelDodge(point, (1 - this.level * DodgeView.DODGE_SIZE_LESS / 100.) * DodgeView.SIZE * DodgeView.DODGE_SIZE / 100., new Vector2D(0, 0), this.figure);
+        this.wheelDodge = new WheelDodge(point, (1 - this.level * DodgeView.DODGE_SIZE_LESS / 100.) * this.size * DodgeView.DODGE_SIZE / 100., new Vector2D(0, 0), this.figure);
         this.wheelDodge.setColor(Color.decode("#7CFC00"));
 
     }
@@ -290,7 +292,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         int countActive = DodgeView.WHEEL_ACTIVE[this.level];
         int countActiveLight = DodgeView.WHEEL_ACTIVE_LIGHT[this.level];
                 
-        double maxRadius = (1 - this.level * DodgeView.WHEEL_SIZE_LESS / 100.) * DodgeView.SIZE * DodgeView.WHEEL_SIZE / 100.;
+        double maxRadius = (1 - this.level * DodgeView.WHEEL_SIZE_LESS / 100.) * this.size * DodgeView.WHEEL_SIZE / 100.;
     
         this.setWheels = new SetWheelsMovesInFigure(this.wheelDodge, this.figure, DodgeView.IMPULS, maxRadius, countPassive, countActive, countActiveLight);
                         
