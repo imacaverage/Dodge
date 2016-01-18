@@ -48,7 +48,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     /**
      * начальная скорость Dodge
      */
-    private static final double DODGE_SPEED = 145;
+    private final double dodgeSpeed;
 
     /**
      * начальный радиус Dodge круга в процентах от размера поля
@@ -192,7 +192,8 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.size = screenSize.height * 3 / 4;
         this.indent = this.size / 60;
-        this.impuls = this.size * 90;
+        this.impuls = this.size * 95;
+        this.dodgeSpeed = (int) (this.size / 4.2);
 
         this.setPreferredSize(new Dimension(this.size + this.indent * 2, this.size + this.indent * 2));
         
@@ -308,7 +309,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         this.setLeft(false);
         this.setRight(false);
         this.dodge.showLevel(this.level + 1);
-        this.speed = DodgeView.DODGE_SPEED * (1 + this.level * DodgeView.DODGE_SPEED_RAISE / 100.);
+        this.speed = this.dodgeSpeed * (1 + this.level * DodgeView.DODGE_SPEED_RAISE / 100.);
         this.setFigure();
         this.setWheel();
         this.setWheels();        
