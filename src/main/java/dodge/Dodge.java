@@ -137,10 +137,21 @@ public class Dodge extends JFrame {
      * @return объект ini файла
      */
     private Optional<File> getIniFile() {
+        String pathIni;
+        String OS = (System.getProperty("os.name")).toUpperCase();
+        if (OS.contains("WIN")){
+            pathIni = System.getenv("AppData") + "\\Dodge";
+        }
+        else {
+            pathIni = System.getProperty("user.home");
+            pathIni += "/Library/Application Support/Dodge";
+        }
+        File fileDir = new File(pathIni);
+        if (!fileDir.exists())
+            fileDir.mkdir();
         File file = null;
-        File currentDir = new File(".");
         try {
-            String filePath = currentDir.getCanonicalPath() + System.getProperty("file.separator") + "Dodge.ini";
+            String filePath = pathIni + System.getProperty("file.separator") + "Dodge.ini";
             file = new File(filePath);
             if (!file.exists())
                 file.createNewFile();
@@ -168,6 +179,10 @@ public class Dodge extends JFrame {
         }
         catch (FileNotFoundException e) {}
         catch (IOException e) {}
+        if (level < 0)
+            level = 0;
+        if (level > 9)
+            level = 9;
         return level;
     }
 

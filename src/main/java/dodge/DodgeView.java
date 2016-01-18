@@ -80,7 +80,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     /**
      * процент уменьшения радиуса круга
      */
-    private static final double WHEEL_SIZE_LESS = 1.5;
+    private static final double WHEEL_SIZE_LESS = 1;
     
     /**
      * количество вершин фигуры
@@ -90,17 +90,17 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     /**
      * пассивные круги
      */
-    private static final int[] WHEEL_PASSIVE      = {5, 4, 3, 2, 0, 0, 3, 2, 1, 0};
+    private static final int[] WHEEL_PASSIVE      = {5, 4, 3, 2, 0, 0, 3, 2, 1, 1};
     
     /**
      * активные круги
      */
-    private static final int[] WHEEL_ACTIVE       = {0, 1, 2, 3, 3, 2, 2, 3, 3, 3}; 
+    private static final int[] WHEEL_ACTIVE       = {0, 1, 2, 3, 3, 2, 2, 3, 3, 1};
     
     /**
      * активные легкие круги
      */
-    private static final int[] WHEEL_ACTIVE_LIGHT = {0, 0, 0, 0, 1, 2, 0, 0, 1, 2}; 
+    private static final int[] WHEEL_ACTIVE_LIGHT = {0, 0, 0, 0, 1, 2, 0, 0, 1, 1};
 
     /**
      * скорость перемещения круга
