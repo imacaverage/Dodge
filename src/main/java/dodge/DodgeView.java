@@ -199,8 +199,8 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     public void paint(Graphics g) {
         
         g.setColor(this.getBackground());
-        g.clearRect(0, 0, DodgeView.INDENT + DodgeView.SIZE, DodgeView.INDENT + DodgeView.SIZE);
-        g.fillRect(0, 0, DodgeView.INDENT + DodgeView.SIZE, DodgeView.INDENT + DodgeView.SIZE);
+        g.clearRect(0, 0, DodgeView.INDENT * 2 + DodgeView.SIZE, DodgeView.INDENT * 2 + DodgeView.SIZE);
+        g.fillRect(0, 0, DodgeView.INDENT * 2 + DodgeView.SIZE, DodgeView.INDENT * 2 + DodgeView.SIZE);
         
         this.figure.show(g, Color.BLACK);
 

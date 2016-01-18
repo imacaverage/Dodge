@@ -139,7 +139,7 @@ public class Dodge extends JFrame {
     private Optional<File> getIniFile() {
         String pathIni;
         String OS = (System.getProperty("os.name")).toUpperCase();
-        if (OS.contains("WIN")){
+        if (OS.contains("WIN")) {
             pathIni = System.getenv("AppData") + "\\Dodge";
         }
         else {
