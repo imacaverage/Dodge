@@ -74,12 +74,12 @@ public class SetWheelsMovesInFigure {
     }
 
     /**
-     * Проверить пересечение с объектом "Круг, который может перемещаться"
-     * @param wheel объект "Круг, который может перемещаться"
+     * Проверить пересечение с объектом "Круг Dodge"
+     * @param wheelDodge объект "Круг, который может перемещаться"
      * @return true в случае успеха, иначе false
      */
-    public boolean isCollision(WheelMoves wheel) {
-        return this.wheels.stream().anyMatch(wheel::isCollision);
+    public boolean isCollision(WheelDodge wheelDodge) {
+        return this.wheels.stream().anyMatch(wheelDodge::isCollision);
     }
 
     /**
