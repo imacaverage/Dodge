@@ -7,7 +7,7 @@ package dodge;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Random;
 
@@ -16,17 +16,17 @@ import java.util.Random;
  * @author iMacAverage
  */
 public class SetWheelsMovesInFigure {
-    
+
     /**
      * множество объектов "Круг, который движется"
      */
-    private final ArrayList<WheelMoves> wheels;
-    
+    private final LinkedHashSet<WheelMoves> wheels;
+
     /**
      * объект "Фигура"
      */
     private final Figure figure;
-    
+
     /**
      * Создать объект
      * @param wheelDodge объект "Круг Dodge"
@@ -37,14 +37,14 @@ public class SetWheelsMovesInFigure {
      * @param countActive количество активных кругов
      * @param countActiveLight количество легких активных кругов
      */
-    public SetWheelsMovesInFigure(Wheel wheelDodge, Figure figure, double impulse, double maxRadius, int countPassive, int countActive, int countActiveLight) {
+    public SetWheelsMovesInFigure(WheelDodge wheelDodge, Figure figure, double impulse, double maxRadius, int countPassive, int countActive, int countActiveLight) {
         WheelMoves wheel;
-        Random rnd = new Random(System.currentTimeMillis());        
+        Random rnd = new Random(System.currentTimeMillis());
         int countWheels = countPassive + countActive + countActiveLight;
         double alpha = (countWheels > 1? 2 * Math.PI / countWheels : 0);
         double l = 1.1 * Math.max(wheelDodge.getRadius() + maxRadius, (alpha > 0? maxRadius / Math.sin(alpha / 2) : 0));
         Vector2D vector = new Vector2D(0, -l).rotateClockWise(rnd.nextInt(21) * Math.PI / 10.);
-        this.wheels = new ArrayList<>();
+        this.wheels = new LinkedHashSet<>();
         this.figure = figure;
         for (int i = 0; i < countWheels; i++) {
             double radius = maxRadius * (5. / 6 + rnd.nextInt(11) / 60.);
@@ -72,15 +72,15 @@ public class SetWheelsMovesInFigure {
             this.wheels.add(wheel);
         }
     }
-        
+
     /**
      * Проверить пересечение с объектом "Круг, который может перемещаться"
      * @param wheel объект "Круг, который может перемещаться"
      * @return true в случае успеха, иначе false
      */
     public boolean isCollision(WheelMoves wheel) {
-        return this.wheels.stream().anyMatch(wheel::isCollision);            
-    }    
+        return this.wheels.stream().anyMatch(wheel::isCollision);
+    }
 
     /**
      * Получить объект "Столкновение" для первого столкновения в рамках заданного времени
@@ -88,11 +88,11 @@ public class SetWheelsMovesInFigure {
      * @return объект "Столкновение"
      */
     private Optional<Collision> getFirstCollision(double time) {
-        
+
         int i = 0;
         Optional<Collision> minCollision, firstCollision = Optional.empty();
 
-        for (WheelMoves wheel : this.wheels) { 
+        for (WheelMoves wheel : this.wheels) {
             Optional<Collision> collision = firstCollision;
             minCollision = this.figure.getLines()
                                 .filter(wheel::isMovesTo)
@@ -102,8 +102,8 @@ public class SetWheelsMovesInFigure {
             if (minCollision.isPresent())
                 firstCollision = minCollision;
         }
-        
-        for (WheelMoves wheel : this.wheels) { 
+
+        for (WheelMoves wheel : this.wheels) {
             Optional<Collision> collision = firstCollision;
             minCollision = this.wheels.stream()
                                 .skip(++i)
@@ -114,17 +114,17 @@ public class SetWheelsMovesInFigure {
             if (minCollision.isPresent())
                 firstCollision = minCollision;
         }
-        
+
         return firstCollision;
 
     }
-    
+
     /**
      * Переместить все круги
      * @param time время
      */
     public void move(double time) {
-        
+
         while (time > 0) {
             Optional<Collision> collision = this.getFirstCollision(time);
             double timeLeft = collision.map(Collision::getTime).orElse(time);
@@ -132,7 +132,7 @@ public class SetWheelsMovesInFigure {
             collision.ifPresent(Collision::process);
             time -= timeLeft;
 	}
-         
+
     }
     
     /**

@@ -13,17 +13,17 @@ import java.awt.Graphics;
  * @author iMacAverage
  */
 public class Line2D {
-    
+
     /**
      * объект "Точка"
      */
     private Point2D point;
-    
+
     /**
      * объект "Вектор"
      */
     private Vector2D vector;
-    
+
     /**
      * Создать объект
      * @param point объект "Точка"
@@ -33,7 +33,7 @@ public class Line2D {
         this.point = point;
         this.vector = vector;
     }
-    
+
     /**
      * Получить коэффициент A в общем виде уравнения прямой
      * @return коэффициент A в общем виде уравнения прямой
@@ -49,7 +49,7 @@ public class Line2D {
     public double getB() {
         return (this.getA() == 0? 1 : -this.vector.getX() / this.vector.getY());
     }
-    
+
     /**
      * Получить коэффициент C в общем виде уравнения прямой
      * @return коэффициент C в общем виде уравнения прямой
@@ -78,11 +78,11 @@ public class Line2D {
      * Получить значение уравнения в точке
      * @param point объект "Точка"
      * @return значение уравнения
-     */    
+     */
     public double getValue(Point2D point) {
         return this.getA() * point.getX() + this.getB() * point.getY() + this.getC();
     }
-    
+
     /**
      * Отобразить отрезок прямой из точки на длину вектора
      * @param g объект "Рисование"

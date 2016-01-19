@@ -19,32 +19,32 @@ import javax.swing.JPanel;
  * @author iMacAverage
  */
 public class DodgeView extends JPanel implements Runnable, KeyListener {
-    
+
     /**
      * размер игрового поля
      */
     private final int size;
-    
+
     /**
      * отступ
      */
     private final int indent;
-    
+
     /**
      * время уровня в секундах
      */
     private static final int TIME_LEVEL = 30;
-    
+
     /**
      * время обновления
      */
     private static final int TIME_UPDATE = 20;
-    
+
     /**
      * количество уровней
      */
     private static final int LEVEL_COUNT = 10;
-    
+
     /**
      * начальная скорость Dodge
      */
@@ -54,17 +54,17 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
      * начальный радиус Dodge круга в процентах от размера поля
      */
     private static final double DODGE_SIZE = 3.;
-    
+
     /**
      * процент уменьшения радиуса Dodge
      */
     private static final double DODGE_SIZE_LESS = 2.;
-    
+
     /**
      * процент увеличения скорости Dodge круга
      */
     private static final double DODGE_SPEED_RAISE = 2.5;
-    
+
     /**
      * начальный импульс круга
      */
@@ -74,12 +74,12 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
      * начальный радиус круга в процентах от размера поля
      */
     private static final double WHEEL_SIZE = 3.5;
-    
+
     /**
      * процент уменьшения радиуса круга
      */
     private static final double WHEEL_SIZE_LESS = 1;
-    
+
     /**
      * количество вершин фигуры
      */
@@ -89,12 +89,12 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
      * пассивные круги
      */
     private static final int[] WHEEL_PASSIVE      = {5, 4, 3, 2, 0, 0, 3, 2, 1, 1};
-    
+
     /**
      * активные круги
      */
     private static final int[] WHEEL_ACTIVE       = {0, 1, 2, 3, 3, 2, 2, 3, 3, 1};
-    
+
     /**
      * активные легкие круги
      */
@@ -104,27 +104,27 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
      * скорость перемещения круга
      */
     private double speed;
-    
+
     /**
      * уровень
      */
     private int level;
-        
+
     /**
      * граница
      */
     private Figure figure;
-    
+
     /**
      * объект "Уклонение"
      */
     private final Dodge dodge;
-    
+
     /**
      * круг Dodge
      */
     private WheelDodge wheelDodge;
-    
+
     /**
      * объект "Множество объектов 'Круг', движущихся внутри объекта 'Фигура'"
      */
@@ -137,14 +137,14 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
 
     /**
      * нажата клавиша вниз
-     */    
+     */
     private boolean down;
-    
+
     /**
      * нажата клавиша влево
      */
     private boolean left;
-    
+
     /**
      * нажата клавиша вправо
      */
@@ -154,7 +154,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
      * таймер уровня
      */
     private Timer timer;
-    
+
     /**
      * предыдущее время
      */
@@ -164,13 +164,13 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
      * признак изменения нажатых клавиш управления
      */
     private boolean changeKey;
-    
+
     /**
      * Создать объект
      * @param dodge объект "Уклонение"
      */
     public DodgeView(Dodge dodge) {
-        
+
         this.dodge = dodge;
         this.level = this.dodge.getLevel();
         this.down = false;
@@ -186,16 +186,16 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         this.dodgeSpeed = this.size / 4.2;
 
         this.setPreferredSize(new Dimension(this.size + this.indent * 2, this.size + this.indent * 2));
-        
+
 }
-        
+
     @Override
     public void paint(Graphics g) {
-        
+
         g.setColor(this.getBackground());
         g.clearRect(0, 0, this.indent * 2 + this.size, this.indent * 2 + this.size);
         g.fillRect(0, 0, this.indent * 2 + this.size, this.indent * 2 + this.size);
-        
+
         this.figure.show(g, Color.BLACK);
 
         long currTime = System.currentTimeMillis();
@@ -204,7 +204,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
 
         if (DodgePause.getInstance().isResult())
             time = 0.;
-        
+
         this.oldTime = currTime;
 
         if (this.changeKey) {
@@ -212,7 +212,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
             Vector2D speed = new Vector2D(0, 0);
             if (this.isUp())
                 speed = speed.sum(new Vector2D(0, -1));
-            if (this.isDown()) 
+            if (this.isDown())
                 speed = speed.sum(new Vector2D(0, 1));
             if (this.isLeft())
                 speed = speed.sum(new Vector2D(-1, 0));
@@ -220,21 +220,21 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
                 speed = speed.sum(new Vector2D(1, 0));
             this.wheelDodge.setSpeed(speed.getVectorOfLength(this.speed));
         }
-        
+
         this.wheelDodge.move(time);
         this.wheelDodge.refresh(g, this.getBackground());
-       
+
         if (this.setWheels.isCollision(wheelDodge))
             DodgeResult.getInstance().setResult(-1);
 
         this.setWheels.move(time);
         this.setWheels.refresh(g, this.getBackground());
-        
+
         if (this.setWheels.isCollision(wheelDodge))
             DodgeResult.getInstance().setResult(-1);
 
     }
-    
+
     /**
      * Задать границу
      */
@@ -243,23 +243,23 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         int countRoot = DodgeView.FIGURE_ROOT_COUNT[this.level];
         Point2D point1, point2, center = new Point2D(this.indent + this.size / 2, this.indent + this.size / 2);
         ArrayList<Line2D> lines = new ArrayList<>();
-        
+
         Random rnd = new Random(System.currentTimeMillis());
-        
+
         Vector2D vector = new Vector2D(0, -this.size / 2).rotateClockWise(2 * Math.PI * rnd.nextInt(11) / 10.);
         point1 = center.shift(vector);
-        
+
         for (int i = 0; i < countRoot; i++) {
             vector = vector.rotateClockWise(2 * Math.PI / countRoot);
             point2 = center.shift(vector);
             lines.add(new Line2D(point1, point2.sub(point1)));
             point1 = point2;
         }
-        
+
         this.figure = new Figure(lines);
 
     }
-    
+
     /**
      * Задать круг
      */
@@ -273,22 +273,22 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         this.wheelDodge.setColor(Color.decode("#7CFC00"));
 
     }
-    
+
     /**
      * Задать коллекцию кругов
      */
     private void setWheels() {
-        
+
         int countPassive = DodgeView.WHEEL_PASSIVE[this.level];
         int countActive = DodgeView.WHEEL_ACTIVE[this.level];
         int countActiveLight = DodgeView.WHEEL_ACTIVE_LIGHT[this.level];
-                
+
         double maxRadius = (1 - this.level * DodgeView.WHEEL_SIZE_LESS / 100.) * this.size * DodgeView.WHEEL_SIZE / 100.;
-    
+
         this.setWheels = new SetWheelsMovesInFigure(this.wheelDodge, this.figure, this.impulse, maxRadius, countPassive, countActive, countActiveLight);
-                        
+
     }
-    
+
     /**
      * Запустить уровень
      */
@@ -301,7 +301,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         this.speed = this.dodgeSpeed * (1 + this.level * DodgeView.DODGE_SPEED_RAISE / 100.);
         this.setFigure();
         this.setWheel();
-        this.setWheels();        
+        this.setWheels();
         this.timer = new Timer();
         DodgeTimer dodgeTimer = new DodgeTimer(this.dodge, DodgeView.TIME_LEVEL);
         timer.schedule(dodgeTimer, 0, 100);
@@ -318,7 +318,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
                 repaint();
                 try {
                     Thread.sleep(DodgeView.TIME_UPDATE);
-                } 
+                }
                 catch (InterruptedException ignored) {}
             }
             if (DodgeResult.getInstance().getResult() == -1) {
@@ -327,7 +327,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
             }
             else
                 this.nextLevel();
-	}    
+	}
     }
 
     /**
@@ -343,7 +343,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
      * @param up признак нажата ли клавиша вверх
      */
     public void setUp(boolean up) {
-        if (this.up != up) 
+        if (this.up != up)
             this.changeKey = true;
         this.up = up;
     }
@@ -361,7 +361,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
      * @param down признак нажата ли клавиша вниз
      */
     public void setDown(boolean down) {
-        if (this.down != down) 
+        if (this.down != down)
             this.changeKey = true;
         this.down = down;
     }
@@ -379,7 +379,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
      * @param left признак нажата ли клавиша влево
      */
     public void setLeft(boolean left) {
-        if (this.left != left) 
+        if (this.left != left)
             this.changeKey = true;
         this.left = left;
     }
@@ -397,7 +397,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
      * @param right признак нажата ли клавиша вправо
      */
     public void setRight(boolean right) {
-        if (this.right != right) 
+        if (this.right != right)
             this.changeKey = true;
         this.right = right;
     }
@@ -409,7 +409,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         DodgeResult.getInstance().setResult(0);
         JOptionPane.showMessageDialog(null, "Попробуйте еще раз!", "В этот раз не получилось", JOptionPane.ERROR_MESSAGE);
     }
-        
+
     /**
      * Переход на следующий уровень
      */
@@ -422,7 +422,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         this.dodge.setLevel(this.level);
         JOptionPane.showMessageDialog(null, "Вы перешли на следующий уровень!", "Поздравляю!", JOptionPane.INFORMATION_MESSAGE);
     }
-    
+
     @Override
     public void keyTyped(KeyEvent e) {
     }

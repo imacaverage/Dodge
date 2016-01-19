@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  * @author iMacAverage
  */
 public class WheelMoves extends Wheel {
-    
+
     /**
      * позиция до перемещения
      */
@@ -34,7 +34,7 @@ public class WheelMoves extends Wheel {
         this.oldPoint = new Point2D(this.getPoint().getX(), this.getPoint().getY());
         this.speed = speed;
     }
-    
+
     /**
      * Получить скорость
      * @return скорость
@@ -78,7 +78,7 @@ public class WheelMoves extends Wheel {
     public boolean isCollision(Wheel wheel) {
         return this.getPoint().distance(wheel.getPoint()) <= (wheel.getRadius() + this.getRadius());
     }
-    
+
     /**
      * Переместить круг на заданное время
      * @param time заданное время
@@ -86,7 +86,7 @@ public class WheelMoves extends Wheel {
     public void move(double time) {
         this.move(this.speed.like(time));
     }
-    
+
     /**
      * Проверить движется ли круг в сторону объекта "Линия"
      * @param line объект "Линия"
@@ -97,7 +97,7 @@ public class WheelMoves extends Wheel {
         Vector2D projection = vector.projectedVector(new Vector2D(-line.getVector().getY(), line.getVector().getX()));
         return (this.speed.scalarProduct(projection) > 0);
     }
-    
+
     /**
      * Проверить движется ли круг в сторону объекта "Круг, который движется"
      * @param wheel объект "Круг, который движется"
@@ -108,7 +108,7 @@ public class WheelMoves extends Wheel {
         Vector2D v2 = new Vector2D(-v1.getX(), -v1.getY());
         return (this.getSpeed().scalarProduct(v1) + wheel.getSpeed().scalarProduct(v2) > 0);
     }
-    
+
     /**
      * Получить объект "Столкновение" с объектом "Линия"
      * @param line объект "Линия"
@@ -121,7 +121,7 @@ public class WheelMoves extends Wheel {
         double c = Math.pow(line.getValue(this.getPoint()), 2) - Math.pow(this.getRadius(), 2) * (Math.pow(line.getA(), 2) + Math.pow(line.getB(), 2));
         return new Quadratic(a, b, c).getRoots().filter(root -> root >= 0).map(root -> new Collision(this, line, root));
     }
-    
+
     /**
      * Получить объект "Столкновение" с объектом "Круг, который движется"
      * @param wheel объект "Круг, который движется"
@@ -130,7 +130,7 @@ public class WheelMoves extends Wheel {
     public Stream<Collision> getCollision(WheelMoves wheel) {
         double a = Math.pow(wheel.getSpeed().getX() - this.getSpeed().getX(), 2) + Math.pow(wheel.getSpeed().getY() - this.getSpeed().getY(), 2);
         double b = 2 * (
-                (wheel.getSpeed().getX() - this.getSpeed().getX()) * (wheel.getPoint().getX() - this.getPoint().getX()) 
+                (wheel.getSpeed().getX() - this.getSpeed().getX()) * (wheel.getPoint().getX() - this.getPoint().getX())
               + (wheel.getSpeed().getY() - this.getSpeed().getY()) * (wheel.getPoint().getY() - this.getPoint().getY())
                 );
         double c = Math.pow(wheel.getPoint().getX() - this.getPoint().getX(), 2) + Math.pow(wheel.getPoint().getY() - this.getPoint().getY(), 2) - Math.pow(this.getRadius() + wheel.getRadius(), 2);
@@ -152,7 +152,7 @@ public class WheelMoves extends Wheel {
             U1 = V1.rotateClockWise(2 * alpha);
         this.setSpeed(U1);
     }
-    
+
     /**
      * Обработать столкновение с объектом "Круг, который движется"
      * @param wheel объект "Круг, который движется"

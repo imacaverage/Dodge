@@ -14,22 +14,22 @@ import java.awt.Rectangle;
  * @author iMacAverage
  */
 public class Wheel {
-    
+
     /**
      * объект "Точка"
      */
     private Point2D point;
-    
+
     /**
      * радиус
      */
     private double radius;
-        
+
     /**
      * цвет
      */
     private Color color;
-    
+
     /**
      * плотность
      */
@@ -39,7 +39,7 @@ public class Wheel {
      * область, в которой отображен круг
      */
     private final Rectangle rectangle;
-	
+
     /**
      * Создать объект
      * @param point объект "Точка"
@@ -53,17 +53,17 @@ public class Wheel {
         this.hardness = 1.;
 
     }
-    
+
     /**
      * Отобразить
      * @param g объект "Рисование"
      */
     public void show(Graphics g) {
         g.setColor(this.color);
-        rectangle.setRect(this.point.getX() - this.radius, this.point.getY() - this.radius, this.radius * 2, this.radius * 2); 
+        rectangle.setRect(this.point.getX() - this.radius, this.point.getY() - this.radius, this.radius * 2, this.radius * 2);
         g.fillOval((int) rectangle.getX(), (int) rectangle.getY(), (int) rectangle.getWidth(), (int) rectangle.getHeight());
     }
-    
+
     /**
      * Стереть (нарисовать цветом фона)
      * @param g объект "Рисование"
@@ -73,9 +73,9 @@ public class Wheel {
         g.setColor(background);
         g.fillOval((int) rectangle.getX(), (int) rectangle.getY(), (int) rectangle.getWidth(), (int) rectangle.getHeight());
     }
-    
+
     /**
-     * Обновить 
+     * Обновить
      * @param g объект "Рисование"
      * @param background цвет фона
      */
@@ -83,7 +83,7 @@ public class Wheel {
         this.clear(g, background);
         this.show(g);
     }
-                
+
     /**
      * Получить объект "Точка"
      * @return объект "Точка"
