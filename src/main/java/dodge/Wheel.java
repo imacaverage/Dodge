@@ -93,14 +93,6 @@ abstract public class Wheel {
     }
 
     /**
-     * Задать объект "Точка"
-     * @param point объект "Точка"
-     */
-    public void setPoint(Point2D point) {
-        this.point = point;
-    }
-
-    /**
      * Получить радиус
      * @return радиус
      */
@@ -108,22 +100,6 @@ abstract public class Wheel {
         return this.radius;
     }
 
-    /**
-     * Задать радиус
-     * @param radius радиус
-     */
-    public void setRadius(double radius) {
-        this.radius = radius;
-    }
-
-    /**
-     * Получить цвет
-     * @return цвет
-     */
-    public Color getColor() {
-        return this.color;
-    }
-    
     /**
      * Получить плотность
      * @return плотность

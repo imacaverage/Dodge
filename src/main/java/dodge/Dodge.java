@@ -15,11 +15,7 @@ import java.awt.Insets;
 import java.io.*;
 import java.util.Optional;
 import java.util.Properties;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  * Класс "Уклонение"
@@ -95,7 +91,7 @@ public class Dodge extends JFrame {
         jMain.setFocusable(true);
         jMain.requestFocusInWindow();
                 
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);   
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
     
     /**
@@ -148,17 +144,19 @@ public class Dodge extends JFrame {
         }
         File fileDir = new File(pathIni);
         if (!fileDir.exists())
-            fileDir.mkdir();
-        File file = null;
+            if (!fileDir.mkdir())
+                return Optional.empty();
+        File file;
         try {
             String filePath = pathIni + System.getProperty("file.separator") + "Dodge.ini";
             file = new File(filePath);
             if (!file.exists())
-                file.createNewFile();
+                if (!file.createNewFile())
+                    return Optional.empty();
         } catch (IOException e) {
             return Optional.empty();
         }
-        return Optional.ofNullable(file);
+        return Optional.of(file);
     }
 
     /**
@@ -176,9 +174,7 @@ public class Dodge extends JFrame {
             ini.load(fileStream);
             level = Integer.parseInt(ini.getProperty("level", "0"));
             fileStream.close();
-        }
-        catch (FileNotFoundException e) {}
-        catch (IOException e) {}
+        } catch (IOException ignored) {}
         if (level < 0)
             level = 0;
         if (level > 9)
@@ -200,9 +196,7 @@ public class Dodge extends JFrame {
             ini.setProperty("level", String.valueOf(level));
             ini.store(fileStream, "current level");
             fileStream.close();
-        }
-        catch (FileNotFoundException e) {}
-        catch (IOException e) {}
+        } catch (IOException ignored) {}
     }
 
     /**
@@ -211,22 +205,17 @@ public class Dodge extends JFrame {
     public static void main(String[] args) {
 
         EventQueue.invokeLater(
-            
-            new Runnable() {
 
-                @Override
-                public void run() {     
-                    JFrame.setDefaultLookAndFeelDecorated(true);
+                () -> {
+                    setDefaultLookAndFeelDecorated(true);
                     DodgePause.getInstance().setResult(true);
                     Dodge dodge = new Dodge();
-                    new Thread(dodge.dodgeView).start();   
+                    new Thread(dodge.dodgeView).start();
                     dodge.display();
                     JOptionPane.showMessageDialog(null, "Добро пожаловать!", "Игра Dodge", JOptionPane.INFORMATION_MESSAGE);
                     DodgePause.getInstance().setResult(false);
                 }
-            
-            }
-        
+
         );
     }
 

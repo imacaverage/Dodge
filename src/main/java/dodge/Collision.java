@@ -58,14 +58,6 @@ public class Collision {
         this.line = Optional.of(line);
         this.time = time;
     }
-    
-    /**
-     * Получить объект "Круг, который движется"
-     * @return объект "Круг, который движется"
-     */
-    public WheelMoves getWheel() {
-        return wheel;
-    }
 
     /**
      * Получить объект "Круг, который движется", с которым происходит столкновение

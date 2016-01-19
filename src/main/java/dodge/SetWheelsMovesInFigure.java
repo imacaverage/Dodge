@@ -28,7 +28,7 @@ public class SetWheelsMovesInFigure {
     private final Figure figure;
     
     /**
-     * Cоздать объект
+     * Создать объект
      * @param wheelDodge объект "Круг Dodge"
      * @param figure объект "Фигура"
      * @param impulse импульс круга

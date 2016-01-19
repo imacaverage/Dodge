@@ -35,8 +35,8 @@ public class DodgeTimer extends TimerTask {
 
     /**
      * Создать объект
-     * @param dodge
-     * @param time
+     * @param dodge объект "Dodge"
+     * @param time время
      */
     public DodgeTimer(Dodge dodge, int time) {
         this.dodge = dodge;

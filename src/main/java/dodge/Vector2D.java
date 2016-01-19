@@ -62,15 +62,6 @@ public class Vector2D {
     }
 
     /**
-     * Проверить равенство векторов
-     * @param vector объект "Вектор"
-     * @return true в случае успеха, иначе false
-     */
-    public boolean equals(Vector2D vector) {
-        return this.x == vector.getX() && this.y == vector.getY();
-    }
-    
-    /**
      * Сложить векторы
      * @param vector объект "Вектор"
      * @return сумма векторов

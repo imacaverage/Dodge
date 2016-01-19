@@ -67,14 +67,6 @@ public class Line2D {
     }
 
     /**
-     * Задать объект "Точка"
-     * @param point объект "Точка"
-     */
-    public void setPoint(Point2D point) {
-        this.point = point;
-    }
-
-    /**
      * Получить объект "Вектор"
      * @return объект "Вектор"
      */
@@ -82,14 +74,6 @@ public class Line2D {
         return this.vector;
     }
 
-    /**
-     * Задать объект "Вектор"
-     * @param vector объект "Вектор"
-     */
-    public void setVector(Vector2D vector) {
-        this.vector = vector;
-    }
-    
     /**
      * Получить значение уравнения в точке
      * @param point объект "Точка"

@@ -69,23 +69,6 @@ public class WheelMoves extends Wheel {
         this.getPoint().setX(this.getPoint().getX() + vector.getX());
         this.getPoint().setY(this.getPoint().getY() + vector.getY());
     }
-    
-    /**
-     * Отменить перемещение
-     */
-    public void cancelMove() {
-        this.getPoint().setX(this.getOldPoint().getX());
-        this.getPoint().setY(this.getOldPoint().getY());
-    }
-
-    /**
-     * Проверить столкновение с объектом "Линия"
-     * @param line объект "Линия"
-     * @return true в случае успеха, иначе false
-     */
-    public boolean isCollision(Line2D line) {
-        return line.getValue(this.getOldPoint()) * line.getValue(this.getPoint()) < 0 || this.getPoint().distance(line) < this.getRadius();
-    }
 
     /**
      * Проверить столкновение с объектом "Круг"

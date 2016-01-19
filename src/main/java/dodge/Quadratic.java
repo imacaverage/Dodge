@@ -46,39 +46,7 @@ public class Quadratic {
         this.c = c;
         this.d = Math.pow(this.b, 2) - 4 * this.a * this.c;
     }
-    
-    /**
-     * Получить коэффициент при второй степени
-     * @return коэффициент при второй степени
-     */
-    public double getA() {
-        return this.a;
-    }
 
-    /**
-     * Получить коэффициент при первой степени
-     * @return коэффициент при первой степени
-     */
-    public double getB() {
-        return this.b;
-    }
-
-    /**
-     * Получить коэффициент при нулевой степени
-     * @return коэффициент при нулевой степени
-     */
-    public double getC() {
-        return this.c;
-    }
-
-    /**
-     * Получить дискриминант
-     * @return дискриминант
-     */
-    private double getD() {
-        return this.d;
-    }
-    
     /**
      * Получить поток корней уравнения
      * @return поток корней уравнения
