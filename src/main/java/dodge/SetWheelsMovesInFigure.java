@@ -7,7 +7,7 @@ package dodge;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 
@@ -20,7 +20,7 @@ public class SetWheelsMovesInFigure {
     /**
      * множество объектов "Круг, который движется"
      */
-    private final LinkedHashSet<WheelMoves> wheels;
+    private final ArrayList<WheelMoves> wheels;
     
     /**
      * объект "Фигура"
@@ -31,26 +31,26 @@ public class SetWheelsMovesInFigure {
      * Cоздать объект
      * @param wheelDodge объект "Круг Dodge"
      * @param figure объект "Фигура"
-     * @param impuls импульс круга
+     * @param impulse импульс круга
      * @param maxRadius максимальный радиус круга
      * @param countPassive количество пассивных кругов
      * @param countActive количество активных кругов
      * @param countActiveLight количество легких активных кругов
      */
-    public SetWheelsMovesInFigure(Wheel wheelDodge, Figure figure, double impuls, double maxRadius, int countPassive, int countActive, int countActiveLight) {
+    public SetWheelsMovesInFigure(Wheel wheelDodge, Figure figure, double impulse, double maxRadius, int countPassive, int countActive, int countActiveLight) {
         WheelMoves wheel;
         Random rnd = new Random(System.currentTimeMillis());        
         int countWheels = countPassive + countActive + countActiveLight;
         double alpha = (countWheels > 1? 2 * Math.PI / countWheels : 0);
         double l = 1.1 * Math.max(wheelDodge.getRadius() + maxRadius, (alpha > 0? maxRadius / Math.sin(alpha / 2) : 0));
         Vector2D vector = new Vector2D(0, -l).rotateClockWise(rnd.nextInt(21) * Math.PI / 10.);
-        this.wheels = new LinkedHashSet<>(); 
+        this.wheels = new ArrayList<>();
         this.figure = figure;
         for (int i = 0; i < countWheels; i++) {
             double radius = maxRadius * (5. / 6 + rnd.nextInt(11) / 60.);
             Vector2D v = vector.rotateClockWise(alpha * i);
             Point2D point = new Point2D(v.getX() + wheelDodge.getPoint().getX(), v.getY() + wheelDodge.getPoint().getY());
-            Vector2D speed = v.getVectorOfLength(impuls / Math.pow(radius, 2));
+            Vector2D speed = v.getVectorOfLength(impulse / Math.pow(radius, 2));
             speed.rotateClockWise(alpha * (-1. / 2 + rnd.nextInt(101) / 100.));
             if (countActiveLight-- > 0) {
                 wheel = new WheelMovesActive(point, radius, speed, wheelDodge);

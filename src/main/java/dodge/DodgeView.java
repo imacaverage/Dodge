@@ -68,7 +68,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     /**
      * начальный импульс круга
      */
-    private final double impuls;
+    private final double impulse;
 
     /**
      * начальный радиус круга в процентах от размера поля
@@ -148,13 +148,8 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     /**
      * нажата клавиша вправо
      */
-    private boolean right;    
-    
-    /**
-     * время на уровень
-     */
-    private int time;
-    
+    private boolean right;
+
     /**
      * таймер уровня
      */
@@ -164,11 +159,6 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
      * предыдущее время
      */
     private long oldTime;
-
-    /**
-     * текущее время
-     */
-    private long currTime;
 
     /**
      * признак изменения нажатых клавиш управления
@@ -190,9 +180,9 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
 	    this.changeKey = false;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.size = (int) (Math.sqrt(Math.pow(screenSize.height, 2) + Math.pow(screenSize.width, 2)) / 2.5);
+        this.size = screenSize.height * 3 / 4;
         this.indent = this.size / 60;
-        this.impuls = Math.pow(this.size * 0.4, 2);
+        this.impulse = Math.pow(this.size * 0.4, 2);
         this.dodgeSpeed = this.size / 4.2;
 
         this.setPreferredSize(new Dimension(this.size + this.indent * 2, this.size + this.indent * 2));
@@ -208,15 +198,14 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         
         this.figure.show(g, Color.BLACK);
 
-        // текущее время
-        this.currTime = System.currentTimeMillis();
+        long currTime = System.currentTimeMillis();
 
-        double time = (this.currTime - this.oldTime) / 1000.;
+        double time = (currTime - this.oldTime) / 1000.;
 
         if (DodgePause.getInstance().isResult())
             time = 0.;
         
-        this.oldTime = this.currTime;
+        this.oldTime = currTime;
 
         if (this.changeKey) {
             this.changeKey = false;
@@ -296,7 +285,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
                 
         double maxRadius = (1 - this.level * DodgeView.WHEEL_SIZE_LESS / 100.) * this.size * DodgeView.WHEEL_SIZE / 100.;
     
-        this.setWheels = new SetWheelsMovesInFigure(this.wheelDodge, this.figure, this.impuls, maxRadius, countPassive, countActive, countActiveLight);
+        this.setWheels = new SetWheelsMovesInFigure(this.wheelDodge, this.figure, this.impulse, maxRadius, countPassive, countActive, countActiveLight);
                         
     }
     
@@ -313,9 +302,8 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         this.setFigure();
         this.setWheel();
         this.setWheels();        
-        this.time = DodgeView.TIME_LEVEL;
         this.timer = new Timer();
-        DodgeTimer dodgeTimer = new DodgeTimer(this.dodge, this.time);
+        DodgeTimer dodgeTimer = new DodgeTimer(this.dodge, DodgeView.TIME_LEVEL);
         timer.schedule(dodgeTimer, 0, 100);
         DodgeResult.getInstance().setResult(1);
         this.oldTime = System.currentTimeMillis();
@@ -331,7 +319,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
                 try {
                     Thread.sleep(DodgeView.TIME_UPDATE);
                 } 
-                catch (InterruptedException ex) {}
+                catch (InterruptedException ignored) {}
             }
             if (DodgeResult.getInstance().getResult() == -1) {
                 this.timer.cancel();
