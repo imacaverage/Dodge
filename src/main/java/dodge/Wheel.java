@@ -13,7 +13,7 @@ import java.awt.Rectangle;
  * Класс "Круг"
  * @author iMacAverage
  */
-abstract public class Wheel {
+public class Wheel {
     
     /**
      * объект "Точка"
