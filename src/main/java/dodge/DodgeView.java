@@ -128,7 +128,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
     /**
      * объект "Множество объектов 'Круг', движущихся внутри объекта 'Фигура'"
      */
-    private SetWheelsMovesInFigure setWheels;
+    private WheelsMovesInFigure wheelsMovesInFigure;
 
     /**
      * нажата клавиша вверх
@@ -182,7 +182,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.size = screenSize.height * 3 / 4;
         this.indent = this.size / 60;
-        this.impulse = Math.pow(this.size * 0.4, 2);
+        this.impulse = Math.pow(this.size * 0.065, 3);
         this.dodgeSpeed = this.size / 4.2;
 
         this.setPreferredSize(new Dimension(this.size + this.indent * 2, this.size + this.indent * 2));
@@ -224,13 +224,13 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
         this.wheelDodge.move(time);
         this.wheelDodge.refresh(g, this.getBackground());
 
-        if (this.setWheels.isCollision(wheelDodge))
+        if (this.wheelsMovesInFigure.isCollision(wheelDodge))
             DodgeResult.getInstance().setResult(-1);
 
-        this.setWheels.move(time);
-        this.setWheels.refresh(g, this.getBackground());
+        this.wheelsMovesInFigure.move(time);
+        this.wheelsMovesInFigure.refresh(g, this.getBackground());
 
-        if (this.setWheels.isCollision(wheelDodge))
+        if (this.wheelsMovesInFigure.isCollision(wheelDodge))
             DodgeResult.getInstance().setResult(-1);
 
     }
@@ -285,7 +285,7 @@ public class DodgeView extends JPanel implements Runnable, KeyListener {
 
         double maxRadius = (1 - this.level * DodgeView.WHEEL_SIZE_LESS / 100.) * this.size * DodgeView.WHEEL_SIZE / 100.;
 
-        this.setWheels = new SetWheelsMovesInFigure(this.wheelDodge, this.figure, this.impulse, maxRadius, countPassive, countActive, countActiveLight);
+        this.wheelsMovesInFigure = new WheelsMovesInFigure(this.wheelDodge, this.figure, this.impulse, maxRadius, countPassive, countActive, countActiveLight);
 
     }
 
