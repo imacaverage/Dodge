@@ -7,9 +7,7 @@ package dodge;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Класс "Множество объектов 'Круг', движущихся внутри объекта 'Фигура'"
@@ -20,7 +18,7 @@ public class SetWheelsMovesInFigure {
     /**
      * множество объектов "Круг, который движется"
      */
-    private final LinkedHashSet<WheelMoves> wheels;
+    private final ArrayList<WheelMoves> wheels;
 
     /**
      * объект "Фигура"
@@ -44,7 +42,7 @@ public class SetWheelsMovesInFigure {
         double alpha = (countWheels > 1? 2 * Math.PI / countWheels : 0);
         double l = 1.1 * Math.max(wheelDodge.getRadius() + maxRadius, (alpha > 0? maxRadius / Math.sin(alpha / 2) : 0));
         Vector2D vector = new Vector2D(0, -l).rotateClockWise(rnd.nextInt(21) * Math.PI / 10.);
-        this.wheels = new LinkedHashSet<>();
+        this.wheels = new ArrayList<>();
         this.figure = figure;
         for (int i = 0; i < countWheels; i++) {
             double radius = maxRadius * (5. / 6 + rnd.nextInt(11) / 60.);
@@ -61,12 +59,10 @@ public class SetWheelsMovesInFigure {
                 if (countActive-- > 0) {
                     wheel = new WheelMovesActive(point, radius, speed, wheelDodge);
                     wheel.setColor(Color.decode("#FFA500"));
-                    this.wheels.add(wheel);
                 }
                 else {
                     wheel = new WheelMoves(point, radius, speed);
                     wheel.setColor(Color.decode("#6495ED"));
-                    this.wheels.add(wheel);
                 }
             }
             this.wheels.add(wheel);

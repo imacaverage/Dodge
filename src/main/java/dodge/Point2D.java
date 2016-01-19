@@ -98,5 +98,5 @@ public class Point2D {
     public Point2D shift(Vector2D vector) {
         return new Point2D(this.getX() + vector.getX(), this.getY() + vector.getY());
     }
-        
+
 }

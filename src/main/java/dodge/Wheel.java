@@ -123,5 +123,5 @@ public class Wheel {
     public void setHardness(double hardness) {
         this.hardness = hardness;
     }
-    
+
 }
